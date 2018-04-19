@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:testCase id="aed07ce3-b119-44f2-97e6-e5639cc19700" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="TestCase 1" searchProperties="true" xmlns:con="http://eviware.com/soapui/config"><con:settings><con:setting id="aed07ce3-b119-44f2-97e6-e5639cc19700fileName">TestCase-1</con:setting></con:settings><con:savedRecentRuns>1</con:savedRecentRuns><con:testStep type="properties" name="Properties" id="03b6172d-4710-49c3-b43a-6a263d01f1fe"><con:settings/><con:config xsi:type="con:PropertiesStep" saveFirst="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:properties><con:property><con:name>A</con:name><con:value>100</con:value></con:property></con:properties></con:config></con:testStep><con:testStep type="datasource" name="ReadingFromNotepad" id="fe9cb0a4-1aba-4ed6-9661-7427d7b3704c"><con:settings/><con:config xsi:type="con:DataSourceStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:dataSource type="File"><con:configuration><fileName>E:/Data11.txt</fileName><separator>,</separator><trim>true</trim><charset>Cp1252</charset><quotedValues>false</quotedValues></con:configuration></con:dataSource><con:shared>true</con:shared><con:restartShared>true</con:restartShared><con:property>A</con:property><con:property>Z</con:property><con:completeLastOperation>true</con:completeLastOperation><con:restartOnRun>true</con:restartOnRun></con:config></con:testStep><con:testStep type="request" id="c68c1740-4b5b-4a70-b4dd-5fd5ce62dadb" name="Add - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>CalculatorSoap</con:interface><con:operation>Add</con:operation><con:request name="Add - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="9fed5975-27b0-4a76-98be-90fa0054a59d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.dneonline.com/calculator.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:Add>
+         <tem:intA>11</tem:intA>
+         <tem:intB>${Properties#A}</tem:intB>
+      </tem:Add>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:assertion type="SOAP Response" id="117f52cc-1840-4c09-85b9-13bb10a0595f" name="SOAP Response"/><con:assertion type="XPath Match" id="534651e4-6513-4c0e-9601-665fbda56519" name="XPath Match"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="295bf748-f57a-4fd3-933d-50a27eaa90d0" name="AssertionS2" disabled="true"><con:configuration><scriptText>import com.eviware.soapui.support.*
+def groovyUtils = new GroovyUtils(context)
+
+xml = groovyUtils.getXmlHolder(messageExchange.responseContent)
+assert xml.getNodeValue("//ns1:AddResponse[1]/ns1:AddResult/text()")  == "150"
+</scriptText></con:configuration></con:assertion><con:assertion type="GroovyScriptAssertion" id="9224171e-2c25-4f05-89d3-f3d1659141dc" name="Script Assertion"><con:configuration/></con:assertion><con:assertion type="GroovyScriptAssertion" id="66ee8949-6f6d-4dd0-9f58-35f4647147c8" name="Script Assertion 2"><con:configuration/></con:assertion><con:credentials><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/Add"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:testStep type="groovy" name="Groovy Script" id="5368f84f-12ba-4536-a31d-da5070dacb31"><con:settings/><con:config><script>// (23+30)*100(30-14)
+
+n=add(23,30)
+k=sub(30,14)
+t=multi(k,100)
+p=multi(n,t)
+log.info p
+
+def add(a,b)
+{
+	c=a+b		
+}
+
+def sub(r,s)
+{
+	d=r-s
+	return d
+}
+def multi(y,g)
+{
+	e=y*g
+	return e
+}</script></con:config></con:testStep><con:testStep type="datasourceloop" name="DataSource Loop" id="fe572840-e60a-44d7-a98c-3ffa3ef0e5ee"><con:settings/><con:config><dataSourceStep>ReadingFromNotepad</dataSourceStep><targetStep>Add - Request 1</targetStep><discardResults>true</discardResults></con:config></con:testStep><con:properties/><con:reportParameters/><con:breakPoints><con:testStepId>fe9cb0a4-1aba-4ed6-9661-7427d7b3704c</con:testStepId><con:status>NONE</con:status><con:properties/></con:breakPoints></con:testCase>
